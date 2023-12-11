@@ -1,8 +1,11 @@
 package com.anubisdunk.chiligifsearcher.model
 
-import androidx.annotation.DrawableRes
-import androidx.compose.animation.graphics.vector.AnimatedImageVector
+import kotlinx.serialization.SerialName
+import kotlinx.serialization.Serializable
 
+@Serializable
 data class GifItem(
-    @DrawableRes val imageResourceId: Int,
+    val id: String,
+    @SerialName(value = "url")
+    val url: String
 )
