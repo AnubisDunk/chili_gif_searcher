@@ -19,6 +19,14 @@ import com.anubisdunk.chiligifsearcher.R
 
 
 @Composable
+fun MainScreen(modifier: Modifier = Modifier){
+    Column(modifier = modifier) {
+        Text(text = "Hello")
+        Text(text = "There")
+    }
+
+}
+@Composable
 fun LoadingScreen(modifier: Modifier = Modifier) {
     Box(modifier = modifier.fillMaxSize()) {
         CircularProgressIndicator(

@@ -23,14 +23,12 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.tooling.preview.Preview
-import androidx.lifecycle.viewmodel.compose.viewModel
 import com.anubisdunk.chiligifsearcher.R
-import com.anubisdunk.chiligifsearcher.ui.screens.HomeScreen
+import com.anubisdunk.chiligifsearcher.ui.screens.MainScreen
 
 
 @Composable
 fun ChiliGifApp() {
-    val gifViewModel: GifViewModel = viewModel(factory = GifViewModel.Factory)
     Scaffold(
         modifier = Modifier.fillMaxSize(),
         topBar = {
@@ -47,7 +45,7 @@ fun ChiliGifApp() {
 
         ) {
             OutlinedTextField(
-                value = gifViewModel.userInput,
+                value = "gifViewModel.userInput", //gifViewModel.userInput
                 singleLine = true,
                 modifier = Modifier
                     .fillMaxWidth()
@@ -57,18 +55,16 @@ fun ChiliGifApp() {
                     unfocusedContainerColor = MaterialTheme.colorScheme.surface,
                     disabledContainerColor = MaterialTheme.colorScheme.surface,
                 ),
-                onValueChange = { gifViewModel.updateInput(it) },
+                onValueChange = {  }, //gifViewModel.updateInput(it)
                 //isError = isGuessWrong,
                 keyboardOptions = KeyboardOptions.Default.copy(
                     imeAction = ImeAction.Done
                 ),
                 keyboardActions = KeyboardActions(
-                    onDone = { gifViewModel.exequteReq() }
+                    onDone = { } //gifViewModel.exequteReq()
                 )
             )
-            HomeScreen(
-                gifUiState = gifViewModel.gifUiState,
-                retryAction = { gifViewModel.getGifs("en-Us") },
+            MainScreen(
                 modifier = Modifier
                     .padding(it)
                     .align(Alignment.CenterHorizontally)
