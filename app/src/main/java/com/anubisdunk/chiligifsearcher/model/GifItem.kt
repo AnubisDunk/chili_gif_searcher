@@ -16,9 +16,16 @@ data class GifDataModel(
 )
 data class GifModel(
     val title : String,
-    val type: String
+    val type: String,
+    val images : ImageModel
 )
 data class Gif(
     val title : String,
     val url: String
+)
+data class ImageModel(
+    val downsized : DownsizedModel
+)
+data class DownsizedModel(
+    val url : String
 )

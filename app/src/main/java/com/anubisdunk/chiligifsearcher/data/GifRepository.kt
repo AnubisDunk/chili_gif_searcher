@@ -15,7 +15,7 @@ class NetworkAgentsRepository(private val gifService : GifApiService) : GifRepos
         items ->
         Gif(
             title = items.title,
-            url = items.type
+            url = items.images.downsized.url
         )
     }
 }

@@ -1,28 +1,35 @@
 package com.anubisdunk.chiligifsearcher.ui.screens
 
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.lazy.grid.GridCells
-import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
-import androidx.compose.foundation.lazy.grid.itemsIndexed
-import androidx.compose.material3.Card
-import androidx.compose.material3.CardDefaults
+import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.lazy.staggeredgrid.LazyVerticalStaggeredGrid
+import androidx.compose.foundation.lazy.staggeredgrid.StaggeredGridCells
+import androidx.compose.foundation.lazy.staggeredgrid.itemsIndexed
+import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.res.dimensionResource
-import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
+import coil.compose.AsyncImage
+import coil.compose.rememberAsyncImagePainter
+import coil.decode.ImageDecoderDecoder
+import coil.request.ImageRequest
 import com.anubisdunk.chiligifsearcher.R
 import com.anubisdunk.chiligifsearcher.model.Gif
 
 @Composable
 fun OutputGridList(modifier: Modifier = Modifier, gifs: List<Gif>) {
-    LazyVerticalGrid(
-        columns = GridCells.Fixed(2)
+    LazyVerticalStaggeredGrid(
+        columns = StaggeredGridCells.Adaptive(150.dp),
+        verticalItemSpacing = 4.dp,
+        horizontalArrangement = Arrangement.spacedBy(4.dp),
     ) {
-        itemsIndexed(gifs){_,gif->
+        itemsIndexed(gifs) { _, gif ->
             GifCard(gif = gif)
         }
     }
@@ -33,20 +40,26 @@ fun GifCard(
     gif: Gif,
     modifier: Modifier = Modifier
 ) {
-    Card(
-        colors = CardDefaults.cardColors(
-            containerColor = MaterialTheme.colorScheme.surfaceVariant,
-        ),
-        modifier = modifier
-            .padding(dimensionResource(R.dimen.padding_small))
-            .size(width = 240.dp, height = 100.dp),
-        elevation = CardDefaults.cardElevation(8.dp)
-    ) {
-        Text(
-            text = gif.title +" |AA| " + gif.url,
-            modifier = Modifier
-                .padding(16.dp),
-            textAlign = TextAlign.Center,
+        AsyncImage(
+            model = ImageRequest.Builder(LocalContext.current)
+                .data(gif.url)
+                .decoderFactory(ImageDecoderDecoder.Factory())
+                .build(),
+            error = painterResource(R.drawable.error_24px),
+            placeholder = rememberAsyncImagePainter(CustomPlaceholder(modifier.padding(16.dp))),
+//            placeholder = painterResource(R.drawable.progress_activity_24px),
+            contentScale = ContentScale.Crop,
+            contentDescription = null,
+        )
+
+}
+@Composable
+fun CustomPlaceholder(modifier: Modifier){
+    Box(modifier) {
+        CircularProgressIndicator(
+            modifier = Modifier.width(64.dp),
+            color = MaterialTheme.colorScheme.secondary,
+            trackColor = MaterialTheme.colorScheme.surfaceVariant,
         )
     }
 }

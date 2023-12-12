@@ -46,6 +46,7 @@ class GifViewModel(
 
     fun updateInput(userNewInput: String) {
         userInput = userNewInput
+        getGifs(userInput)
 
     }
 
@@ -78,6 +79,7 @@ class GifViewModel(
                 GifUiState.Success(gifRepository.getGifs(lang))
             } catch (e: IOException){
                 Log.e("Error", e.toString())
+
                 GifUiState.Error
             } catch (e: HttpException){
                 Log.e("Error", e.toString())

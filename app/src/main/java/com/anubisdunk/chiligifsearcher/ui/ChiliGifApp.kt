@@ -40,7 +40,9 @@ fun ChiliGifApp() {
     ) {
         Column(
             modifier = Modifier
-                .padding(it),
+                .padding(it)
+                .fillMaxSize(),
+
             horizontalAlignment = Alignment.CenterHorizontally
 
         ) {
@@ -67,8 +69,9 @@ fun ChiliGifApp() {
             HomeScreen(
                 gifUiState = gifViewModel.gifUiState,
                 retryAction = { gifViewModel.getGifs("en-Us") },
-
-                modifier = Modifier.padding(it)
+                modifier = Modifier
+                    .padding(it)
+                    .align(Alignment.CenterHorizontally)
             )
         }
 
