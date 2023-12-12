@@ -1,39 +1,36 @@
 package com.anubisdunk.chiligifsearcher.ui
 
-import android.annotation.SuppressLint
 import androidx.compose.foundation.Image
-import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.text.KeyboardActions
+import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material3.CenterAlignedTopAppBar
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Scaffold
-import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
-import androidx.compose.material3.TopAppBar
+import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.modifier.modifierLocalConsumer
 import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.lifecycle.viewmodel.compose.viewModel
 import com.anubisdunk.chiligifsearcher.R
-import com.anubisdunk.chiligifsearcher.ui.screens.MainScreen
+import com.anubisdunk.chiligifsearcher.ui.screens.HomeScreen
 
 
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun ChiliGifApp() {
+    val gifViewModel: GifViewModel = viewModel(factory = GifViewModel.Factory)
     Scaffold(
         modifier = Modifier.fillMaxSize(),
         topBar = {
@@ -41,8 +38,40 @@ fun ChiliGifApp() {
         }
 
     ) {
+        Column(
+            modifier = Modifier
+                .padding(it),
+            horizontalAlignment = Alignment.CenterHorizontally
 
-            MainScreen(modifier = Modifier.padding(it))
+        ) {
+            OutlinedTextField(
+                value = gifViewModel.userInput,
+                singleLine = true,
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(dimensionResource(R.dimen.padding_medium)),
+                colors = TextFieldDefaults.colors(
+                    focusedContainerColor = MaterialTheme.colorScheme.surface,
+                    unfocusedContainerColor = MaterialTheme.colorScheme.surface,
+                    disabledContainerColor = MaterialTheme.colorScheme.surface,
+                ),
+                onValueChange = { gifViewModel.updateInput(it) },
+                //isError = isGuessWrong,
+                keyboardOptions = KeyboardOptions.Default.copy(
+                    imeAction = ImeAction.Done
+                ),
+                keyboardActions = KeyboardActions(
+                    onDone = { gifViewModel.exequteReq() }
+                )
+            )
+            HomeScreen(
+                gifUiState = gifViewModel.gifUiState,
+                retryAction = { gifViewModel.getGifs("en-Us") },
+
+                modifier = Modifier.padding(it)
+            )
+        }
+
 
     }
 }
@@ -50,12 +79,11 @@ fun ChiliGifApp() {
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun GifTopAppBar(modifier: Modifier = Modifier) {
-
     CenterAlignedTopAppBar(
         title = {
-            Row(
-                verticalAlignment = Alignment.CenterVertically,
-            ){
+            Column(
+                horizontalAlignment = Alignment.CenterHorizontally,
+            ) {
                 Image(
                     modifier = Modifier
                         .size(dimensionResource(R.dimen.icon_size))
@@ -63,7 +91,7 @@ fun GifTopAppBar(modifier: Modifier = Modifier) {
                     contentDescription = null,
                     painter = painterResource(R.drawable.gif_24px)
 
-                    )
+                )
                 Text(
                     stringResource(R.string.app_name),
                     style = MaterialTheme.typography.displayLarge
@@ -72,12 +100,11 @@ fun GifTopAppBar(modifier: Modifier = Modifier) {
         },
         modifier = modifier
     )
-
 }
 
 @Preview
 @Composable
-fun prew()
-{
+fun ChiliGifAppPrew(){
     ChiliGifApp()
 }
+
