@@ -59,7 +59,9 @@ dependencies {
     implementation("androidx.compose.ui:ui-tooling-preview")
     implementation("androidx.core:core-ktx:1.10.1")
     implementation("androidx.lifecycle:lifecycle-runtime-ktx:2.6.1")
+
     implementation("androidx.lifecycle:lifecycle-viewmodel-compose:2.6.2")
+
     implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.5.1")
 
     implementation("com.squareup.okhttp3:okhttp:4.11.0")

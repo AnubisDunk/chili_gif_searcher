@@ -9,11 +9,11 @@ interface GifApiService {
     @GET("search")
     suspend fun gifSearch(
         @Query("api_key") apiKey : String = "c5oCxWTg55BauK2A6iyzIlUSeLr5G8hy",
-        @Query("limit") limit : Int = 20,
+       // @Query("limit") limit : Int = 20,
         @Query("q") search : String = "",
 
         @Query("rating") rating : String = "r",
-        @Query("offset") offset : Int = Random.nextInt(0,4999)
+       // @Query("offset") offset : Int = Random.nextInt(0,4999)
 
     ) : GifDataModel
 

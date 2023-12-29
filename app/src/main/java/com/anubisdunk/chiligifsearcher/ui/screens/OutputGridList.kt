@@ -47,7 +47,6 @@ fun GifCard(
                 .build(),
             error = painterResource(R.drawable.error_24px),
             placeholder = rememberAsyncImagePainter(CustomPlaceholder(modifier.padding(16.dp))),
-//            placeholder = painterResource(R.drawable.progress_activity_24px),
             contentScale = ContentScale.Crop,
             contentDescription = null,
         )

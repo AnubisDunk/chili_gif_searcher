@@ -1,10 +1,5 @@
 package com.anubisdunk.chiligifsearcher.model
 
-import kotlinx.serialization.SerialName
-import kotlinx.serialization.Serializable
-
-
-
 data class GifDataModel(
     val data : List<GifModel>,
 

@@ -16,6 +16,7 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.dimensionResource
@@ -23,29 +24,33 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.lifecycle.viewmodel.compose.viewModel
 import com.anubisdunk.chiligifsearcher.R
 import com.anubisdunk.chiligifsearcher.ui.screens.MainScreen
+import com.anubisdunk.chiligifsearcher.ui.screens.MainScreenViewModel
 
 
 @Composable
 fun ChiliGifApp() {
+    val vm = viewModel<MainScreenViewModel>()
+    val searchState = vm.searchUi.collectAsState()
     Scaffold(
         modifier = Modifier.fillMaxSize(),
         topBar = {
             GifTopAppBar()
         }
 
-    ) {
+    ) { paddingValues ->
         Column(
             modifier = Modifier
-                .padding(it)
+                .padding(paddingValues)
                 .fillMaxSize(),
 
             horizontalAlignment = Alignment.CenterHorizontally
 
         ) {
             OutlinedTextField(
-                value = "gifViewModel.userInput", //gifViewModel.userInput
+                value = searchState.value,
                 singleLine = true,
                 modifier = Modifier
                     .fillMaxWidth()
@@ -55,18 +60,19 @@ fun ChiliGifApp() {
                     unfocusedContainerColor = MaterialTheme.colorScheme.surface,
                     disabledContainerColor = MaterialTheme.colorScheme.surface,
                 ),
-                onValueChange = {  }, //gifViewModel.updateInput(it)
-                //isError = isGuessWrong,
+                onValueChange = { vm.ChangeValue(it)},
+
                 keyboardOptions = KeyboardOptions.Default.copy(
                     imeAction = ImeAction.Done
                 ),
                 keyboardActions = KeyboardActions(
-                    onDone = { } //gifViewModel.exequteReq()
+                    onDone = { }
                 )
             )
+            Text(text = searchState.value)
             MainScreen(
                 modifier = Modifier
-                    .padding(it)
+                    .padding(paddingValues)
                     .align(Alignment.CenterHorizontally)
             )
         }
