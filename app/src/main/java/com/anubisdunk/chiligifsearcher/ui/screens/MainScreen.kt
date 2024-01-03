@@ -5,9 +5,9 @@ import androidx.compose.ui.Modifier
 
 
 @Composable
-fun MainScreen(modifier: Modifier = Modifier){
-    //OutputGridList(gifs = )
+fun MainScreen(modifier: Modifier = Modifier, viewModel: MainScreenViewModel) {
 
+    OutputGridList(viewModel = viewModel)
 }
 
 
