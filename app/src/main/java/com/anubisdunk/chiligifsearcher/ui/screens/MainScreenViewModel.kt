@@ -45,7 +45,7 @@ class MainScreenViewModel(
     var endReached = mutableStateOf(false)
 
     fun loadGifPaginated() {
-        Log.e("Pag", "$curPage")
+        Log.e("Pag", "Page nr = $curPage")
         viewModelScope.launch {
             isLoading.value = true
             when (val result = repository.getGifList(_searchUi.value, PAGE_SIZE, curPage * PAGE_SIZE)) {

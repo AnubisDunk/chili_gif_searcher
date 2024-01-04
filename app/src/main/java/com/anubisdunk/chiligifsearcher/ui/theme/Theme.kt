@@ -48,6 +48,8 @@ private val LightColors = lightColorScheme(
     surfaceTint = md_theme_light_surfaceTint,
     outlineVariant = md_theme_light_outlineVariant,
     scrim = md_theme_light_scrim,
+    //loadingInit = md_theme_light_loadingInit,
+    //loadingTarget = md_theme_light_loadingTarget,
 )
 
 
@@ -81,6 +83,8 @@ private val DarkColors = darkColorScheme(
     surfaceTint = md_theme_dark_surfaceTint,
     outlineVariant = md_theme_dark_outlineVariant,
     scrim = md_theme_dark_scrim,
+    //loadingInit = md_theme_dark_loadingInit,
+    //loadingTarget = md_theme_dark_loadingTarget,
 )
 
 @Composable

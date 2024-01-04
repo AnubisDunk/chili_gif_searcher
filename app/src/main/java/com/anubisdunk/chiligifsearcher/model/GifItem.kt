@@ -16,6 +16,7 @@ data class Gif(
     val url: String
 )
 data class ImageModel(
+    val preview_gif : DownsizedModel,
     val downsized : DownsizedModel
 )
 data class DownsizedModel(
