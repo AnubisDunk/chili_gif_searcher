@@ -1,7 +1,5 @@
 package com.anubisdunk.chiligifsearcher.repository
 
-import android.util.Log
-import com.anubisdunk.chiligifsearcher.model.Gif
 import com.anubisdunk.chiligifsearcher.model.GifDataList
 import com.anubisdunk.chiligifsearcher.network.GifApi
 import com.anubisdunk.chiligifsearcher.utils.Resource

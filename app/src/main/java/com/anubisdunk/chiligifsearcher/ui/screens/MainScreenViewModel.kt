@@ -36,7 +36,6 @@ class MainScreenViewModel(
 
     val searchUi: StateFlow<String> = _searchUi
 
-
     private var curPage = 0
 
     var gifList = mutableStateOf<List<Gif>>(listOf())
@@ -48,7 +47,8 @@ class MainScreenViewModel(
         Log.e("Pag", "Page nr = $curPage")
         viewModelScope.launch {
             isLoading.value = true
-            when (val result = repository.getGifList(_searchUi.value, PAGE_SIZE, curPage * PAGE_SIZE)) {
+            when (val result =
+                repository.getGifList(_searchUi.value, PAGE_SIZE, curPage * PAGE_SIZE)) {
                 is Resource.Success -> {
                     endReached.value = curPage * PAGE_SIZE >= result.data?.pagination!!.total_count
                     val gifEntries = result.data.data.mapIndexed { _, entry ->
@@ -68,8 +68,8 @@ class MainScreenViewModel(
         }
     }
 
-    fun clearList(){
-       // Log.e("Er", "Clear")
+    fun clearList() {
+        // Log.e("Er", "Clear")
         curPage = 0
         loadError.value = ""
         isLoading.value = false
