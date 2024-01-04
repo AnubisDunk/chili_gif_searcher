@@ -69,7 +69,7 @@ class MainScreenViewModel(
     }
 
     fun clearList(){
-        Log.e("Er", "Clear")
+       // Log.e("Er", "Clear")
         curPage = 0
         loadError.value = ""
         isLoading.value = false

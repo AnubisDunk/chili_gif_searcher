@@ -113,7 +113,6 @@ fun FullScreenImage(gifIndex: Int, entries: List<Gif>, onDismiss: () -> Unit) {
                 .data(entries[gifIndex].url)
                 .decoderFactory(ImageDecoderDecoder.Factory())
                 .build(),
-            error = painterResource(R.drawable.error_24px),
             placeholder = rememberAsyncImagePainter(CustomPlaceholder()),
             contentScale = ContentScale.Crop,
             contentDescription = null,

@@ -98,30 +98,20 @@ fun ChiliGifApp() {
                     onDone = { }
                 )
             )
-            if (searchState.isNotBlank()) {
+            if (searchState.isNotBlank() && loadError.isEmpty()) {
                 vm.clearList()
                 OutputGridList(
                     viewModel = vm
                 )
-            } else {
-                Box(
-                    contentAlignment = Alignment.Center,
-                    modifier = Modifier.fillMaxSize()
-                ) {
-                    if (isLoading) {
-                        CircularProgressIndicator(color = MaterialTheme.colorScheme.primary)
-                    }
-                    if (loadError.isNotEmpty()) {
-                        Retry(error = loadError) {
-                            vm.loadGifPaginated()
-                        }
-                    }
+            }
+            if (loadError.isNotEmpty()) {
+                Retry(error = loadError) {
+                    vm.loadGifPaginated()
                 }
             }
         }
     }
 }
-
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -131,14 +121,6 @@ fun GifTopAppBar(modifier: Modifier = Modifier) {
             Column(
                 horizontalAlignment = Alignment.CenterHorizontally,
             ) {
-                Image(
-                    modifier = Modifier
-                        .size(dimensionResource(R.dimen.icon_size))
-                        .padding(dimensionResource(R.dimen.padding_small)),
-                    contentDescription = null,
-                    painter = painterResource(R.drawable.gif_24px)
-
-                )
                 Text(
                     stringResource(R.string.app_name),
                     style = MaterialTheme.typography.displayLarge

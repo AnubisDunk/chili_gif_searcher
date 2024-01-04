@@ -13,7 +13,8 @@ class GifRepository(
         val response = try{
             api.getGifList(search = search, limit = limit, offset = offset)
         } catch (e: Exception){
-            return Resource.Error("something went wrong")
+
+            return Resource.Error("Something went wrong")
         }
         return Resource.Success(response)
     }
