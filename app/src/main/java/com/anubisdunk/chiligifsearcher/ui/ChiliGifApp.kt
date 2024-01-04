@@ -1,5 +1,6 @@
 package com.anubisdunk.chiligifsearcher.ui
 
+import android.util.Log
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -9,7 +10,6 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
-import androidx.compose.material3.Button
 import androidx.compose.material3.CenterAlignedTopAppBar
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -19,7 +19,6 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
@@ -34,11 +33,10 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.anubisdunk.chiligifsearcher.R
-import com.anubisdunk.chiligifsearcher.network.GifApi
 import com.anubisdunk.chiligifsearcher.network.RetrofitInstance
 import com.anubisdunk.chiligifsearcher.repository.GifRepository
-import com.anubisdunk.chiligifsearcher.ui.screens.MainScreen
 import com.anubisdunk.chiligifsearcher.ui.screens.MainScreenViewModel
+import com.anubisdunk.chiligifsearcher.ui.screens.OutputGridList
 import com.anubisdunk.chiligifsearcher.ui.screens.Retry
 
 
@@ -100,10 +98,8 @@ fun ChiliGifApp() {
                 )
             )
             if (searchState.isNotBlank()) {
-                MainScreen(
-                    modifier = Modifier
-                        .padding(paddingValues)
-                        .align(Alignment.CenterHorizontally),
+                vm.clearList()
+                OutputGridList(
                     viewModel = vm
                 )
             } else {
@@ -121,7 +117,6 @@ fun ChiliGifApp() {
                     }
                 }
             }
-
         }
     }
 }

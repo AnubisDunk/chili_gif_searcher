@@ -1,6 +1,7 @@
 package com.anubisdunk.chiligifsearcher.ui.screens
 
 import android.util.Log
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -19,7 +20,10 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.saveable.rememberSaveable
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Alignment.Companion.Center
 import androidx.compose.ui.Alignment.Companion.CenterHorizontally
@@ -38,11 +42,13 @@ import com.anubisdunk.chiligifsearcher.R
 import com.anubisdunk.chiligifsearcher.model.Gif
 
 @Composable
-fun OutputGridList(modifier: Modifier = Modifier, viewModel: MainScreenViewModel) {
+fun OutputGridList(viewModel: MainScreenViewModel) {
     val gifList by remember { viewModel.gifList }
     val endReached by remember { viewModel.endReached }
     val isLoading by remember { viewModel.isLoading }
+    var activePhotoId by remember { mutableStateOf(0) }
     LazyVerticalStaggeredGrid(
+
         columns = StaggeredGridCells.Adaptive(150.dp),
         verticalItemSpacing = 4.dp,
         horizontalArrangement = Arrangement.spacedBy(4.dp),
@@ -52,29 +58,43 @@ fun OutputGridList(modifier: Modifier = Modifier, viewModel: MainScreenViewModel
         } else {
             gifList.size / 2 + 1
         }
-        Log.e("E", gifList.size.toString())
         items(itemCount) {
             if (it >= itemCount - 1 && !endReached && !isLoading) { //<--- !isLoadingTrouble
                 viewModel.loadGifPaginated()
             }
-            GifCard(gifIndex = it, entries = gifList)
+            GifCard(
+                gifIndex = it,
+                entries = gifList,
+                Modifier.clickable {
+                    activePhotoId = it
+                    Log.e("Tap", "$it")
+                }
+            )
         }
+//        if (activePhotoId != null) {
+//            FullScreenImage(
+//                photo = photos.first { it.id == activePhotoId },
+//                onDismiss = { activePhotoId = null }
+//            )
+//        }
     }
+
 }
 
 @Composable
 fun GifCard(
     gifIndex: Int,
     entries: List<Gif>,
-    modifier: Modifier = Modifier
+    modifier: Modifier
 ) {
     AsyncImage(
+
         model = ImageRequest.Builder(LocalContext.current)
             .data(entries[gifIndex * 2].url)
             .decoderFactory(ImageDecoderDecoder.Factory())
             .build(),
         error = painterResource(R.drawable.error_24px),
-        placeholder = rememberAsyncImagePainter(CustomPlaceholder(modifier.padding(16.dp))),
+        placeholder = rememberAsyncImagePainter(CustomPlaceholder(Modifier.padding(16.dp))),
         contentScale = ContentScale.Crop,
         contentDescription = null,
     )

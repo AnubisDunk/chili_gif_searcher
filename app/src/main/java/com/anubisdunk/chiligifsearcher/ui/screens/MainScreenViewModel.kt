@@ -8,20 +8,16 @@ import com.anubisdunk.chiligifsearcher.model.Gif
 import com.anubisdunk.chiligifsearcher.repository.GifRepository
 import com.anubisdunk.chiligifsearcher.utils.Constants.PAGE_SIZE
 import com.anubisdunk.chiligifsearcher.utils.Resource
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.FlowPreview
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
-import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.flow.debounce
 import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.flow.flatMapLatest
 import kotlinx.coroutines.flow.flowOf
-import kotlinx.coroutines.flow.mapLatest
 import kotlinx.coroutines.launch
-import retrofit2.http.Query
 
 
 class MainScreenViewModel(
@@ -31,7 +27,7 @@ class MainScreenViewModel(
 
     private val _searchUi = MutableStateFlow(placeholder)
 
-    @OptIn(ExperimentalCoroutinesApi::class)
+    @OptIn(ExperimentalCoroutinesApi::class, FlowPreview::class)
     val inputText = _searchUi.debounce(300)
         .distinctUntilChanged()
         .flatMapLatest {
@@ -52,11 +48,10 @@ class MainScreenViewModel(
         Log.e("Pag", "$curPage")
         viewModelScope.launch {
             isLoading.value = true
-            val result = repository.getGifList(_searchUi.value, PAGE_SIZE, curPage * PAGE_SIZE)
-            when (result) {
+            when (val result = repository.getGifList(_searchUi.value, PAGE_SIZE, curPage * PAGE_SIZE)) {
                 is Resource.Success -> {
                     endReached.value = curPage * PAGE_SIZE >= result.data?.pagination!!.total_count
-                    val gifEntries = result.data.data.mapIndexed { index, entry ->
+                    val gifEntries = result.data.data.mapIndexed { _, entry ->
                         Gif(title = entry.title, url = entry.images.downsized.url)
                     }
                     curPage++
@@ -70,21 +65,27 @@ class MainScreenViewModel(
                     isLoading.value = false
                 }
             }
-
-
         }
+    }
+
+    fun clearList(){
+        Log.e("Er", "Clear")
+        curPage = 0
+        loadError.value = ""
+        isLoading.value = false
+        gifList.value = emptyList()
     }
 
     fun changeValue(value: String) {
         _searchUi.value = value
     }
 
-    fun searchGifDeb(query: String): Flow<String> {
-        if (query.isEmpty()) {
-            return flowOf("Empty Result")
+    private fun searchGifDeb(query: String): Flow<String> {
+        return if (query.isEmpty()) {
+            flowOf("Empty Result")
         } else {
             loadGifPaginated()
-            return _searchUi
+            _searchUi
         }
     }
 }
