@@ -132,7 +132,7 @@ fun GifCard(
             error = painterResource(R.drawable.error_24px),
             placeholder = rememberAsyncImagePainter(CustomPlaceholder()),
             contentScale = ContentScale.Crop,
-            contentDescription = null,
+            contentDescription = entries[gifIndex].title,
         )
 }
 
