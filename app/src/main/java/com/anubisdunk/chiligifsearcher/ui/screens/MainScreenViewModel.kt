@@ -44,7 +44,6 @@ class MainScreenViewModel(
     var endReached = mutableStateOf(false)
 
     fun loadGifPaginated() {
-        Log.e("Pag", "Page nr = $curPage")
         viewModelScope.launch {
             isLoading.value = true
             when (val result =
@@ -71,7 +70,6 @@ class MainScreenViewModel(
     }
 
     fun clearList() {
-        // Log.e("Er", "Clear")
         curPage = 0
         loadError.value = ""
         isLoading.value = false
