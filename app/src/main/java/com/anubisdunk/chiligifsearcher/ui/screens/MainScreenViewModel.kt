@@ -51,8 +51,9 @@ class MainScreenViewModel(
                 repository.getGifList(_searchUi.value, PAGE_SIZE, curPage * PAGE_SIZE)) {
                 is Resource.Success -> {
                     endReached.value = curPage * PAGE_SIZE >= result.data?.pagination!!.total_count
+
                     val gifEntries = result.data.data.mapIndexed { _, entry ->
-                        Gif(title = entry.title, url = entry.images.downsized.url)
+                        Gif(title = entry.title, url = entry.images.preview_gif.url)  //downsized
                     }
                     curPage++
                     loadError.value = ""

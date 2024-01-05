@@ -8,7 +8,7 @@ interface GifApi {
     @GET("search")
     suspend fun getGifList(
         @Query("api_key") apiKey : String = "c5oCxWTg55BauK2A6iyzIlUSeLr5G8hy",
-        @Query("limit") limit : Int = 20,
+        @Query("limit") limit : Int = 40,
         @Query("q") search : String = "",
 
         @Query("rating") rating : String = "r",

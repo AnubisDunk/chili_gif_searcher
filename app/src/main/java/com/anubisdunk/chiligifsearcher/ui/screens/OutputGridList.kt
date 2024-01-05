@@ -123,11 +123,6 @@ fun GifCard(
     entries: List<Gif>,
     modifier: Modifier
 ) {
-    var visible by remember {
-        mutableStateOf(true)
-    }
-    AnimatedVisibility(visible) {
-
         AsyncImage(
             modifier = modifier,
             model = ImageRequest.Builder(LocalContext.current)
@@ -139,7 +134,6 @@ fun GifCard(
             contentScale = ContentScale.Crop,
             contentDescription = null,
         )
-    }
 }
 
 
